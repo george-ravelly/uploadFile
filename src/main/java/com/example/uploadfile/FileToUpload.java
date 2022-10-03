@@ -9,10 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 public class FileToUpload {
-    public ResponseEntity<String> upload (String nameDirector, String nameFile, InputStream inputFile) throws FileNotFoundException {
+    public ResponseEntity<String> upload (String nameDirector, String nameFile, InputStream inputFile) {
         String fileLocation = nameDirector + "/" + nameFile;
-        File newFile = new File(fileLocation);
-        FileOutputStream outputFile = new FileOutputStream(newFile);
         try {
             Files.copy(inputFile, Path.of(fileLocation), StandardCopyOption.REPLACE_EXISTING);
             return new ResponseEntity<String>("Arquivo carregado com sucesso!", HttpStatus.OK);
