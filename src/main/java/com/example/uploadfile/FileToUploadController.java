@@ -25,7 +25,7 @@ public class FileToUploadController {
     public ResponseEntity<String> upload(@RequestParam("file") MultipartFile upload){
         FileToUpload arquivo = new FileToUpload();
 //        return arquivo.upload("Code/projetos/files", upload.getOriginalFilename(), upload.getInputStream());
-        var location = pathFile + UUID.randomUUID() + upload.getOriginalFilename();
+        var location = pathFile + UUID.randomUUID() + "." + typeFile(upload.getOriginalFilename());
         try {
             Files.copy(upload.getInputStream(), Path.of(location), StandardCopyOption.REPLACE_EXISTING);
             return new ResponseEntity<String>("Arquivo carregado com sucesso!", HttpStatus.OK);
@@ -33,5 +33,10 @@ public class FileToUploadController {
             e.printStackTrace();
             return new ResponseEntity<String>("Erro ao carregar arquivo!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private String typeFile (String name) {
+        var i = name.lastIndexOf(".");
+        return name.substring(i + 1);
     }
 }
